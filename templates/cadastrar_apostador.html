@@ -1,0 +1,37 @@
+<div id="modal" class="modal">
+  <div id="modal-content">
+    <span id="closeModal">&times;</span>
+    <h2 id="message2">Cadastrar Apostador</h2>
+
+    <form id="novoApostador">  
+      <label>
+        Nome:
+        <input id="nome" type="text" name="nome" required>
+      </label>
+
+      <label>
+        Email:
+        <input type="email" name="email" placeholder="email@exemplo.com" required>
+      </label>
+
+      <label>
+        Telefone:
+        <input id="telefone" type="tel" name="telefone" placeholder="(99) 99999-9999" required>
+      </label>
+
+      <label>
+          CPF:
+          <input id="cpf" type="text" name="cpf" placeholder="000.000.000-00" maxlength="14" required>
+      </label>
+
+      <label>
+          Data de Nascimento:
+          <input type="date" name="dt_nasc" max="{{ hoje }}" required>
+      </label>
+
+      <button type="submit">Salvar</button>
+    </form>
+  
+    <p id="message"></p>
+  </div>
+</div>

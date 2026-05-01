@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BET UFC</title>
+
+    <link rel="stylesheet" href="/static/css/reset.css">
+    <link rel="stylesheet" href="/static/css/home.css">
+</head>
+<body>
+    <h1>Bem-vindo à BET UFC</h1>
+    <div class="content">
+        <button onclick="window.location.href='/apostadores'">
+            Listar apostadores
+        </button>
+        
+        <div>
+            <button id="openModal">
+                Cadastrar apostador
+            </button>
+            {% include 'cadastrar_apostador.html' %}
+            <script src="/static/js/cadastrar_apostador.js"></script>
+        </div>
+
+        <button onclick="window.location.href='/deletar_apostador'">
+            Deletar apostador
+        </button>
+    </div>
+</body>
+</html>
