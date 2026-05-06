@@ -1,0 +1,34 @@
+<div id="modalFazerAposta" class="modalApostar">
+  <div id="modalFazerAposta-content" class="modalApostar-content">
+    <span id="closeModalFazerAposta" class="closeModalApostar">&times;</span>
+    <h2 class="tituloModalApostar">Realizar Aposta</h2>
+
+    <form id="fazerAposta" class="formApostar">  
+      <label>
+        CPF do Apostador:
+        <input id="cpf" type="text" name="cpf" placeholder="000.000.000-00" maxlength="14" required>
+      </label>
+      
+      <label>
+        Tipo de Aposta:
+        <select name="tipo_aposta" id="tipo_aposta" required>
+          <option value="" disabled selected hidden>Selecione...</option>
+          <option value="simples">Simples</option>
+          <option value="multipla">Múltipla</option>
+          <option value="over_under">Over/Under</option>
+          <option value="handcap">Handicap</option>
+          <option value="resultado">Resultado</option>
+        </select>
+      </label>
+
+      <label>
+          Valor da Aposta:
+          <input id="valor" type="text" name="valor" placeholder="R$ 0,00" required>
+      </label>
+      <button type="cancel" id="cancel" class="btnApostar">Cancelar</button>
+      <button type="submit" class="btnApostar">Apostar</button>
+    </form>
+  
+    <p id="messageAposta" class="messageApostar"></p>
+  </div>
+</div>
