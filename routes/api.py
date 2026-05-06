@@ -7,6 +7,19 @@ from datetime import datetime, date
 
 api = Blueprint('api', __name__)
 
+@api.route('/obter_cadastro/<int:apostador_id>', methods=['GET'])
+def obter_apostador(apostador_id):
+    apostador = Apostador.query.get_or_404(apostador_id)
+
+    return jsonify({
+        'id': apostador.id,
+        'nome': apostador.nome,
+        'email': apostador.email,
+        'telefone': apostador.telefone,
+        'cpf': apostador.cpf,
+        'dt_nasc': apostador.dt_nasc.strftime('%Y-%m-%d')
+    })
+
 @api.route('/exibir_apostadores', methods=['GET'])
 def listar_apostadores():
     apostadores = Apostador.query.all()
@@ -22,16 +35,16 @@ def listar_apostadores():
             'dt_nasc': a.dt_nasc.isoformat()
         })
 
-    return jsonify(resultado)
+    return jsonify(resultado), 200
 
 @api.route('/cadastrar_apostador', methods=['POST'])
 def cadastrar_apostador():
     data = request.json
-    cpf = data.get('cpf')
-    telefone = data.get('telefone')
+    cpf = data['cpf']
+    telefone = data['telefone']
     telefone = ''.join(filter(str.isdigit, telefone))
     
-    if not data.get('nome') or not cpf:
+    if not data['nome'] or not cpf:
         return jsonify({'message': 'Dados obrigatórios faltando'}), 400
 
     if len(cpf) != 11 or not cpf.isdigit():
@@ -52,8 +65,8 @@ def cadastrar_apostador():
 
     novo_apostador = Apostador(nome=data['nome'], 
                                email=data['email'], 
-                               telefone=data['telefone'],
-                               cpf=data['cpf'],
+                               telefone=telefone,
+                               cpf=cpf,
                                dt_nasc=datetime.strptime(data['dt_nasc'], '%Y-%m-%d').date())
     
     try:
@@ -61,6 +74,7 @@ def cadastrar_apostador():
         db.session.commit()
     except IntegrityError:
         db.session.rollback()
+        print(f"Erro de integridade ao cadastrar apostador com CPF: {cpf} (possível duplicação)")
         return jsonify({'message': 'CPF já cadastrado'}), 400
 
     return jsonify({
@@ -70,29 +84,30 @@ def cadastrar_apostador():
 
 @api.route('/editar_cadastro/<int:apostador_id>', methods=['PUT'])
 def editar_cadastro(apostador_id):
+    print(f"Editando apostador com ID: {apostador_id}")
     apostador = Apostador.query.get_or_404(apostador_id)
     data = request.json
 
     apostador.nome = data['nome']
     apostador.email = data['email']
     apostador.telefone = data['telefone']
-    apostador.cpf = data['cpf']
-    apostador.dt_nasc = data['dt_nasc']
 
     db.session.commit()
-    return jsonify({'message': 'Apostador atualizado'})
+    return jsonify({'message': 'Apostador atualizado'}), 200
 
-@api.route('/deletar_apostador/<int:apostador_id>', methods=['DELETE'])
-def deletar_apostador(apostador_id):
+@api.route('/deletar_cadastro/<int:apostador_id>', methods=['DELETE'])
+def deletar_cadastro(apostador_id):
+    print(f"Deletando apostador com ID: {apostador_id}")
     apostador = Apostador.query.get_or_404(apostador_id)
     db.session.delete(apostador)
     db.session.commit()
-    return jsonify({'message': 'Apostador deletado'})
+    return jsonify({'message': 'Apostador deletado'}), 200
 
 
 @api.route('/exibir_apostas/<int:apostador_id>', methods=['GET'])
 def listar_apostas(apostador_id):
-    apostas = Aposta.query.filter_by(apostador_id=apostador_id).all()
+    apostador = Apostador.query.get_or_404(apostador_id)
+    apostas = apostador.apostas
 
     resultado = []
     for a in apostas:
@@ -103,18 +118,35 @@ def listar_apostas(apostador_id):
             'resultado': a.resultado
         })
 
-    return jsonify(resultado)
+    return jsonify(resultado), 200
 
 @api.route('/apostar', methods=['POST'])
 def realizar_aposta():
     data = request.json
 
-    nova_aposta = Aposta(apostador_id=data['apostador_id'],
+    cpf = data.get('cpf')
+    valor = data.get('valor')
+    tipo_aposta = data.get('tipo_aposta')
+
+    if len(cpf) != 11 or not cpf.isdigit():
+        return jsonify({'message': 'CPF inválido'}), 400
+    
+    if not tipo_aposta:
+        return jsonify({'message': 'Tipo de aposta obrigatório'}), 400
+
+    if valor is None or valor <= 0:
+        return jsonify({'message': 'Valor da aposta inválido'}), 400
+
+    apostador = Apostador.query.filter_by(cpf=cpf).first()
+    if not apostador:
+        return jsonify({'message': 'Apostador não encontrado'}), 404
+
+    nova_aposta = Aposta(apostador_id=apostador.id,
                          tipo_aposta=data['tipo_aposta'],
-                         valor=data['valor'], 
+                         valor=valor, 
                          resultado=data['resultado'])
     
     db.session.add(nova_aposta)
     db.session.commit()
 
-    return jsonify({'message': 'Aposta realizada'})
+    return jsonify({'message': 'Aposta realizada'}), 201

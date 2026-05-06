@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template
+from models import Apostador, Aposta
 from datetime import datetime
 
 web = Blueprint('web', __name__)
@@ -9,7 +10,8 @@ def home():
 
 @web.route('/exibir_apostadores')
 def apostadores():
-    return render_template('exibir_apostadores.html')
+    apostadores = Apostador.query.all()
+    return render_template('exibir_apostadores.html', apostadores=apostadores)
 
 @web.route('/editar_cadastro/<int:apostador_id>')
 def atualizar_apostador(apostador_id):
