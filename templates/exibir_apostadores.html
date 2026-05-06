@@ -3,11 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BET UFC</title>
+    <title>Apostadores</title>
 
-    
+    <link rel="stylesheet" href="/static/css/reset.css">
+    <link rel="stylesheet" href="/static/css/exibir_apostadores.css">
+    <link rel="stylesheet" href="/static/css/editar_cadastro.css">
+    <link rel="stylesheet" href="/static/css/listar_apostas.css">
+
 </head>
 <body>
+    <h1 class="tituloExibirApostadores">Apostadores Cadastrados</h1>
+    <div class="busca">
+        <label>
+            Pesquisar:
+            <input class="searchBar" type="text" id="procurarApostador" placeholder="Pesquisar por nome, ID, CPF ou email...">
+        </label>
+    </div>
     
+    <ul class="apostadores-lista">
+        {% for apostador in apostadores %}
+            <li class="card-apostador"
+                data-id="{{ apostador.id }}"
+                data-nome="{{ apostador.nome }}"
+                data-email="{{ apostador.email }}"
+                data-cpf="{{ apostador.cpf }}">
+                <p><strong>Id do Apostador:</strong> {{ apostador.id }}</p>
+                <p><strong>Nome:</strong> {{ apostador.nome }}</p>
+                <p><strong>Email:</strong> {{ apostador.email }}</p>
+                <p><strong>Telefone:</strong> {{ apostador.telefone }}</p>
+                <p><strong>CPF:</strong> {{ apostador.cpf }}</p>
+                <p><strong>Data de Nascimento:</strong> {{ apostador.dt_nasc.strftime('%d/%m/%Y') }}</p>
+                <div class="acoes">
+                    <div>
+                        <button id="btnEditarCadastro" class="btnEditarCadastro" data-id="{{apostador.id}}">
+                            Editar Cadastro
+                        </button>
+                    </div>
+
+                    <div>
+                        <button id="btnListarApostas" class="btnListarApostas" data-id="{{apostador.id}}">
+                            Apostas Realizadas
+                        </button>
+                    </div>
+
+                    <div>
+                        <button id="btnDeletarCadastro" class="btnDeletarCadastro" data-id="{{apostador.id}}" data-nome="{{apostador.nome}}">
+                            Deletar Cadastro
+                        </button>
+                    </div>
+                </div>       
+            </li>
+        {% endfor %}
+    </ul>
+    <script src="/static/js/busca_apostadores.js"></script>
+    {% include 'editar_cadastro.html' %}
+    <script src="/static/js/editar_cadastro.js"></script>
+    {% include 'listar_apostas.html' %}
+    <script src="/static/js/listar_apostas.js"></script>
+    <script src="/static/js/deletar_cadastro.js"></script>
 </body>
 </html>
