@@ -15,4 +15,4 @@ class Aposta(db.Model):
     valor = db.Column(db.Float, nullable=False)
     resultado = db.Column(db.String(20), nullable=False)
     
-    apostador = db.relationship('Apostador', backref=db.backref('apostas', lazy=True))
+    apostador = db.relationship('Apostador', backref=db.backref('apostas', lazy=True, cascade='all, delete-orphan'))
