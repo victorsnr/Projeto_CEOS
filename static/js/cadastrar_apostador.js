@@ -1,40 +1,44 @@
 document.addEventListener('DOMContentLoaded', () => {
   
   const form = document.getElementById('novoApostador');
-  const message = document.getElementById('message');
+  const message = document.getElementById('messageCadastro');
   const cpfInput = document.getElementById('cpf');
   const telefoneInput = document.getElementById("telefone");
   const nomeInput = document.getElementById("nome");
 
-  const modal = document.getElementById('modal');
-  const openBtn = document.getElementById('openModal');
-  const closeBtn = document.getElementById('closeModal');
+  const modal = document.getElementById('modalCadastro');
+  const openModal = document.getElementById('openModalCadastro');
+  const closeModal = document.getElementById('closeModalCadastro');
 
-  if (openBtn && modal) {
-    openBtn.addEventListener('click', () => {
+  if (openModal && modal) {
+    openModal.addEventListener('click', () => {
       modal.style.display = 'block';
     });
   }
     
-  if (closeBtn && modal) {
-    closeBtn.addEventListener('click', () => {
+  if (closeModal && modal) {
+    closeModal.addEventListener('click', () => {
       modal.style.display = 'none';
     });
   }
 
-  window.addEventListener('click', (e) => {
+  window.addEventListener('click', e => {
     if (e.target === modal) {
+      form.reset();
+      message.textContent = '';
+      document.querySelectorAll('input').forEach(input => input.classList.remove('input-error'));
       modal.style.display = 'none';
     }
   });
+  
   if (nomeInput) {
-    nomeInput.addEventListener('input', function(e) {
+    nomeInput.addEventListener('input', e => {
       e.target.value = e.target.value.toUpperCase();
     });
   }
   
   if (telefoneInput) {
-    telefoneInput.addEventListener('input', function(e) {
+    telefoneInput.addEventListener('input', e => {
       let value = e.target.value.replace(/\D/g, '');
       
       if (value.length > 11) {
@@ -56,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   
   if (cpfInput) {
-    cpfInput.addEventListener('input', function(e) {
+    cpfInput.addEventListener('input', e => {
       let value = e.target.value.replace(/\D/g, '');
       
       if (value.length > 11) {
@@ -65,11 +69,19 @@ document.addEventListener('DOMContentLoaded', () => {
       
       value = value.replace(/(\d{3})(\d)/, '$1.$2');
       value = value.replace(/(\d{3})(\d)/, '$1.$2');
-      value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');;
+      value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
       e.target.value = value;
     });
   }
-  
+
+  document.getElementById('cancel').addEventListener('click', async (event) => {
+      event.preventDefault();
+      form.reset();
+      message.textContent = '';
+      document.querySelectorAll('input').forEach(input => input.classList.remove('input-error'));
+      modal.style.display = 'none';
+  });
+
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
     
@@ -79,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const data = formData.get('dt_nasc');
     const telefone = formData.get('telefone').replace(/\D/g, '');
 
-    document.querySelectorAll('input').forEach(el => el.classList.remove('input-error'));
+    document.querySelectorAll('input').forEach(input => input.classList.remove('input-error'));
 
     //Validação CPF
     if (cpf.length !== 11) {
@@ -125,21 +137,26 @@ document.addEventListener('DOMContentLoaded', () => {
       cpf: cpf,
       dt_nasc: formData.get('dt_nasc')
     };
+    
+    try {
+      const response = await fetch('/api/cadastrar_apostador', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
 
-    const response = await fetch('/api/cadastrar_apostador', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    });
-
-    if (response.ok) {
-      message.textContent = 'Apostador cadastrado com sucesso!';
-      form.reset();
-    } else {
-      const error = await response.json();
-      message.textContent = error.message || 'Erro ao salvar apostador.';
+      if (response.ok) {
+        message.textContent = 'Apostador cadastrado com sucesso!';
+        form.reset();
+      } else {
+        const error = await response.json();
+        message.textContent = error.message || 'Erro ao cadastrar.';
+      }
+    } catch (error) {
+      message.textContent = 'Erro ao conectar com o servidor.';
     }
   });
 });
+

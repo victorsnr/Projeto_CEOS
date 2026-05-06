@@ -1,9 +1,9 @@
-<div id="modal" class="modal">
-  <div id="modal-content">
-    <span id="closeModal">&times;</span>
-    <h2 id="message2">Cadastrar Apostador</h2>
+<div id="modalCadastro" class="modalCadastro">
+  <div id="modalCadastro-content" class="modalCadastro-content">
+    <span id="closeModalCadastro" class="closeModalCadastro">&times;</span>
+    <h2 class="tituloModalCadastro">Cadastrar Apostador</h2>
 
-    <form id="novoApostador">  
+    <form id="novoApostador" class="formCadastro">  
       <label>
         Nome:
         <input id="nome" type="text" name="nome" required>
@@ -28,10 +28,11 @@
           Data de Nascimento:
           <input type="date" name="dt_nasc" max="{{ hoje }}" required>
       </label>
-
-      <button type="submit">Salvar</button>
+      
+      <button type="cancel" id="cancel" class="btnCadastro">Cancelar</button>
+      <button type="submit" class="btnCadastro">Salvar</button>
     </form>
   
-    <p id="message"></p>
+    <p id="messageCadastro" class="messageCadastro"></p>
   </div>
 </div>
