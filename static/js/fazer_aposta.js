@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('fazerAposta');
-    const cpfInput = document.getElementById('cpf');
+    const cpfInput = document.getElementById('cpfAposta');
     const valorInput = document.getElementById('valor');
     const tipoApostaSelect = document.getElementById('tipo_aposta');
     const message = document.getElementById('messageAposta');
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (cpfInput) {
         cpfInput.addEventListener('input', function(e) {
             let value = e.target.value.replace(/\D/g, '');
-            e.target.value = value;
+
             if (value.length > 11) {
                 value = value.substring(0, 11);
             }
