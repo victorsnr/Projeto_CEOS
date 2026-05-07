@@ -2,20 +2,24 @@ document.querySelectorAll('.btnDeletarCadastro').forEach(btn => {
     btn.addEventListener('click', (event) => {
         const id = event.target.dataset.id;
         const nome = event.target.dataset.nome;
-        deletarCadastro(id, nome);
-        location.reload();
+        const sucesso = deletarCadastro(id, nome);
+        if (sucesso){
+            location.reload();
+        }
     });
 });
 
 
-function deletarCadastro(id, nome) {
+async function deletarCadastro(id, nome) {
 
     const confirmar = confirm(`Deseja deletar ${nome}?`);
 
-    if (!confirmar) return;
+    if (!confirmar) return false;
 
-    fetch(`/api/deletar_cadastro/${id}`, {
+    const response = await fetch(`/api/deletar_cadastro/${id}`, {
         method: "DELETE"
     });
+
+    return response.ok
 
 }
