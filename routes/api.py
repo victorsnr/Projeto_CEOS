@@ -84,7 +84,6 @@ def cadastrar_apostador():
 
 @api.route('/editar_cadastro/<int:apostador_id>', methods=['PUT'])
 def editar_cadastro(apostador_id):
-    print(f"Editando apostador com ID: {apostador_id}")
     apostador = Apostador.query.get_or_404(apostador_id)
     data = request.json
 
@@ -97,7 +96,6 @@ def editar_cadastro(apostador_id):
 
 @api.route('/deletar_cadastro/<int:apostador_id>', methods=['DELETE'])
 def deletar_cadastro(apostador_id):
-    print(f"Deletando apostador com ID: {apostador_id}")
     apostador = Apostador.query.get_or_404(apostador_id)
     db.session.delete(apostador)
     db.session.commit()
