@@ -1,4 +1,5 @@
 # BET UFC - Sistema de Apostas
+
 Sistema web para gerenciamento de apostadores e apostas esportivas, permitindo:
 
 - Cadastro, edição e remoção de apostadores
@@ -19,6 +20,7 @@ Este projeto foi desenvolvido para fins educacionais e de processo seletivo.
 ---
 
 ## Sumário
+
 - [Tecnologias utilizadas](#tecnologias-utilizadas)
 - [Como rodar o projeto](#como-rodar-o-projeto)
 - [Arquitetura](#arquitetura)
@@ -44,40 +46,52 @@ Este projeto foi desenvolvido para fins educacionais e de processo seletivo.
 ## Como rodar o projeto
 
 ### 1. Clonando o repositório
+
 No seu prompt de comando ou terminal do seu editor de código, rode:
+
 ```bash
-git clone https://github.com/victorsnr/Projeto_CEOS.git 
+git clone https://github.com/victorsnr/Projeto_CEOS.git
 cd Projeto_CEOS
 ```
+
 (**Nota: é necessário ter o Git instalado**)
 
 ### 2. Criando um ambiente virtual Python:
+
 Dentro do diretório clonado:
+
 ```bash
 python -m venv venv
 ```
 
 Para ativar, se sua máquina for Windows:
+
 ```bash
-venv\Scripts\activate 
+venv\Scripts\activate
 ```
 
 Se for Linux:
+
 ```bash
 source venv/bin/activate
 ```
 
 ### 3. Instalando bibliotecas:
+
 Para instalar as bibliotecas do projeto:
+
 ```bash
 pip install -r requirements.txt
 ```
 
 ### 4. Inicializando a aplicação
+
 Para inicializar o servidor:
+
 ```bash
-python app.py 
+python app.py
 ```
+
 Uma vez que o servidor esteja rodando, o site estará disponível em: http://127.0.0.1:5000
 
 ---
@@ -122,56 +136,62 @@ Uma vez que o servidor esteja rodando, o site estará disponível em: http://127
 ```
 
 ## Modelos
+
 ### Apostador
-|Campo    |Tipo                  |Descrição                        |
-|---------|----------------------|---------------------------------|
-| id      | Integer (PRIMARY KEY)| Gerado automaticamente          |
-| nome    | String[100]          | Nome do apostador               |
-| email   | String[100]          | Email do apostador              |
-| telefone| String[20]           | Telefone do apostador           |
-| cpf     | String[11]           | CPF do apostador                |
-| dt_nasc | Date                 | Data de nascimento do apostador |
+
+| Campo    | Tipo                  | Descrição                       |
+| -------- | --------------------- | ------------------------------- |
+| id       | Integer (PRIMARY KEY) | Gerado automaticamente          |
+| nome     | String[100]           | Nome do apostador               |
+| email    | String[100]           | Email do apostador              |
+| telefone | String[20]            | Telefone do apostador           |
+| cpf      | String[11]            | CPF do apostador                |
+| dt_nasc  | Date                  | Data de nascimento do apostador |
 
 ### Aposta
-|Campo       |Tipo                  |Descrição                                                                                                  |
-|------------|----------------------|-----------------------------------------------------------------------------------------------------------|
-| id         | Integer (PRIMARY KEY)| Gerado automaticamente                                                                                    |
-|apostador_id| Integer (FOREIGN KEY)| Id do apostador que realizou a aposta                                                                     |        
-| tipo_aposta| String[50]           | Tipo da aposta (fazendo a requisição pelo navegador, possui tipos específicos)                            |
-| valor      | Float                | Valor apostado                                                                                            |
-| resultado  | String[20]           | Resultado da aposta (gerado automaticamente e de forma aleatória se a requisição for feita pelo navegador)|
+
+| Campo        | Tipo                  | Descrição                                                                                                  |
+| ------------ | --------------------- | ---------------------------------------------------------------------------------------------------------- |
+| id           | Integer (PRIMARY KEY) | Gerado automaticamente                                                                                     |
+| apostador_id | Integer (FOREIGN KEY) | Id do apostador que realizou a aposta                                                                      |
+| tipo_aposta  | String[50]            | Tipo da aposta (fazendo a requisição pelo navegador, possui tipos específicos)                             |
+| valor        | Float                 | Valor apostado                                                                                             |
+| resultado    | String[20]            | Resultado da aposta (gerado automaticamente e de forma aleatória se a requisição for feita pelo navegador) |
 
 ---
 
 ## Rotas
+
 A aplicação possui duas categorias de rotas: as rotas web (responsáveis pela interface da aplicação) e as rotas da API.
 
 ### Rotas web
 
-| Método | Rota                 | Descrição                                                                                          | Links (após servidor inicializado)       |
-|--------|----------------------|----------------------------------------------------------------------------------------------------|------------------------------------------|
-|  GET   | `/`                  |Página inicial. Armazena as funções "Listar apostadores", "Cadastrar apostador" e "Realizar aposta" | http://127.0.0.1:5000/                  |
-|  GET   | `/exibir_apostadores`|Lista de todos os apostadores presentes no banco de dados                                           | http://127.0.0.1:5000/exibir_apostadores|
+| Método | Rota                  | Descrição                                                                                           | Links (após servidor inicializado)       |
+| ------ | --------------------- | --------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| GET    | `/`                   | Página inicial. Armazena as funções "Listar apostadores", "Cadastrar apostador" e "Realizar aposta" | http://127.0.0.1:5000/                   |
+| GET    | `/exibir_apostadores` | Lista de todos os apostadores presentes no banco de dados                                           | http://127.0.0.1:5000/exibir_apostadores |
 
 ### Rotas API
+
 #### 1. Rotas Apostador
 
-| Método | Rota                        | Descrição                                                            | Exemplos                                       |
-|--------|-----------------------------|----------------------------------------------------------------------|------------------------------------------------|
-|  GET   | `/api/obter_cadastro/<id>`  | Retorna os dados de um apostador com determinado id existente         |[Ir para exemplo](#get-apiobter_cadastroid)     |
-|  GET   | `/api/exibir_apostadores`   | Retorna os dados de todos os apostadores presentes no banco de dados |[Ir para exemplo](#get-apiexibir_apostadores)   |
-|  POST  | `/api/cadastrar_apostador`  | Cadastra (adiciona ao banco de dados) uma apostador                  |[Ir para exemplo](#post-apicadastrar_apostador) |
-|  PUT   | `/api/editar_cadastro/<id>` | Edita os dados de um apostador com determinado id existente          |[Ir para exemplo](#put-apieditar_cadastroid)    |
-| DELETE | `/api/deletar_cadastro/<id>`| Deleta os dados de um apostador com determinado id existente         |[Ir para exemplo](#delete-apideletar_cadastroid)|  
+| Método | Rota                         | Descrição                                                            | Exemplos                                         |
+| ------ | ---------------------------- | -------------------------------------------------------------------- | ------------------------------------------------ |
+| GET    | `/api/obter_cadastro/<id>`   | Retorna os dados de um apostador com determinado id existente        | [Ir para exemplo](#get-apiobter_cadastroid)      |
+| GET    | `/api/exibir_apostadores`    | Retorna os dados de todos os apostadores presentes no banco de dados | [Ir para exemplo](#get-apiexibir_apostadores)    |
+| POST   | `/api/cadastrar_apostador`   | Cadastra (adiciona ao banco de dados) uma apostador                  | [Ir para exemplo](#post-apicadastrar_apostador)  |
+| PUT    | `/api/editar_cadastro/<id>`  | Edita os dados de um apostador com determinado id existente          | [Ir para exemplo](#put-apieditar_cadastroid)     |
+| DELETE | `/api/deletar_cadastro/<id>` | Deleta os dados de um apostador com determinado id existente         | [Ir para exemplo](#delete-apideletar_cadastroid) |
 
 #### 2. Rotas Apostas
 
-| Método | Rota                     | Descrição                                                       | Exemplo                                   |
-|--------|--------------------------|-----------------------------------------------------------------|-------------------------------------------|
-|  GET   | /api/exibir_apostas/<id> | Retorna os dados das apostas do apostador com o id especificado |[Ir para exemplo](#get-apiexibir_apostasid)|
-|  POST  | /api/apostar             | Cria (adiciona um elemento ao banco de dados) uma aposta        |[Ir para exemplo](#post-apiapostar)        |
+| Método | Rota                     | Descrição                                                       | Exemplo                                     |
+| ------ | ------------------------ | --------------------------------------------------------------- | ------------------------------------------- |
+| GET    | /api/exibir_apostas/<id> | Retorna os dados das apostas do apostador com o id especificado | [Ir para exemplo](#get-apiexibir_apostasid) |
+| POST   | /api/apostar             | Cria (adiciona um elemento ao banco de dados) uma aposta        | [Ir para exemplo](#post-apiapostar)         |
 
 ---
+
 ### Exemplos para as rotas
 
 #### `GET /api/obter_cadastro/<id>`
@@ -183,12 +203,12 @@ Exemplo de resposta:
 
 ```json
 {
-    "id": 1,
-    "nome": "JOÃO SILVA",
-    "email": "joao@exemplo.com",
-    "telefone": "85999999999",
-    "cpf": "12345678910",
-    "dt_nasc": "1999-01-01"
+  "id": 1,
+  "nome": "JOÃO SILVA",
+  "email": "joao@exemplo.com",
+  "telefone": "85999999999",
+  "cpf": "12345678910",
+  "dt_nasc": "1999-01-01"
 }
 ```
 
@@ -197,24 +217,25 @@ Exemplo de resposta:
 Retorna uma lista contendo todos os apostadores cadastrados no banco de dados, com código HTTP 200 OK.
 
 Exemplo de resposta:
+
 ```json
 [
-    {
-        "id": 1,
-        "nome": "JOÃO SILVA",
-        "email": "joao@exemplo.com",
-        "telefone": "85999999999",
-        "cpf": "12345678910",
-        "dt_nasc": "1999-01-01"
-    },
-    {
-        "id": 2,
-        "nome": "MARIA SOUZA",
-        "email": "maria@exemplo.com",
-        "telefone": "85988888888",
-        "cpf": "23456789012",
-        "dt_nasc": "2000-05-10"
-    }
+  {
+    "id": 1,
+    "nome": "JOÃO SILVA",
+    "email": "joao@exemplo.com",
+    "telefone": "85999999999",
+    "cpf": "12345678910",
+    "dt_nasc": "1999-01-01"
+  },
+  {
+    "id": 2,
+    "nome": "MARIA SOUZA",
+    "email": "maria@exemplo.com",
+    "telefone": "85988888888",
+    "cpf": "23456789012",
+    "dt_nasc": "2000-05-10"
+  }
 ]
 ```
 
@@ -227,98 +248,112 @@ Caso algum dado seja inválido, retorna erro `400 Bad Request`.
 Caso o cadastro seja realizado com sucesso, retorna código `201 Created`.
 
 Exemplo de requisição:
+
 ```json
 {
-    "nome": "JOÃO SILVA",
-    "email": "joao@exemplo.com",
-    "telefone": "85999999999",
-    "cpf": "12345678910",
-    "dt_nasc": "1999-01-01"
+  "nome": "JOÃO SILVA",
+  "email": "joao@exemplo.com",
+  "telefone": "85999999999",
+  "cpf": "12345678910",
+  "dt_nasc": "1999-01-01"
 }
 ```
+
 Exemplo de resposta:
 
 ```json
 {
-    "message": "Apostador cadastrado",
-    "id": 1
+  "message": "Apostador cadastrado",
+  "id": 1
 }
 ```
 
 #### `PUT /api/editar_cadastro/<id>`
+
 Atualiza o nome, email e telefone de um apostador existente.
 Recebe um JSON com os novos dados e retorna um código HTTP `200 OK` em caso de sucesso.
 
 Exemplo de requisição:
+
 ```json
 {
-    "nome": "JOÃO SILVA ATUALIZADO",
-    "email": "joao_atualizado@exemplo.com",
-    "telefone": "85988888888"
+  "nome": "JOÃO SILVA ATUALIZADO",
+  "email": "joao_atualizado@exemplo.com",
+  "telefone": "85988888888"
 }
 ```
 
 Exemplo de resposta:
+
 ```json
 {
-    "message": "Apostador atualizado"
+  "message": "Apostador atualizado"
 }
 ```
 
 #### `DELETE /api/deletar_cadastro/<id>`
+
 Remove um apostador do banco de dados, assim como as apostas atreladas ao seu id através de cascade delete.
 Retorna um código HTTP `200 OK` caso haja sucesso.
 
 Exemplo de resposta:
+
 ```json
 {
-    "message": "Apostador deletado"
+  "message": "Apostador deletado"
 }
 ```
 
 #### `GET /api/exibir_apostas/<id>`
+
 Retorna todas as apostas associadas ao apostador informado.
 Retorna um código HTTP `200 OK` caso haja sucesso.
 
 Exemplo de resposta:
+
 ```json
 [
-    {
-        "id": 1,
-        "tipo_aposta": "simples",
-        "valor": 100.0,
-        "resultado": "GANHOU"
-    },
-    {
-        "id": 2,
-        "tipo_aposta": "multipla",
-        "valor": 50.0,
-        "resultado": "PERDEU"
-    }
+  {
+    "id": 1,
+    "tipo_aposta": "simples",
+    "valor": 100.0,
+    "resultado": "GANHOU"
+  },
+  {
+    "id": 2,
+    "tipo_aposta": "multipla",
+    "valor": 50.0,
+    "resultado": "PERDEU"
+  }
 ]
 ```
 
 #### `POST /api/apostar`
+
 Cria uma nova aposta associada a um apostador existente.
 Retorna um código HTTP `201 Created` caso haja sucesso.
 
 Exemplo de requisição:
+
 ```json
 {
-    "cpf": "12345678901",
-    "tipo_aposta": "simples",
-    "valor": 20.0,
-    "resultado": "GANHOU"
+  "cpf": "12345678901",
+  "tipo_aposta": "simples",
+  "valor": 20.0,
+  "resultado": "GANHOU"
 }
 ```
 
 Exemplo de resposta:
+
 ```json
 {
-    "message": "Aposta realizada"
+  "message": "Aposta realizada"
 }
 ```
+
 ---
+
 ## Testes automatizados
 
 O projeto possui testes automatizados utilizando a biblioteca **Pytest** e banco de dados SQLite em memória (`sqlite:///:memory:`), garantindo isolamento entre execuções e maior velocidade nos testes.
@@ -365,11 +400,12 @@ DELETE /api/deletar_cadastro/1 - Status Code: 200
 
 A aplicação realiza validações tanto no frontend quanto no backend, incluindo:
 
+- Nome não pode conter dígitos
 - CPF com exatamente 11 dígitos
 - Telefone com 10 ou 11 dígitos
 - Verificação de maioridade (18+)
 - Datas de nascimento futuras (exemplo: "dt-nasc": "2070-02-01")
-- CPF duplicado
+- CPF e email duplicado
 - Valor de aposta maior que zero
 - Existência do apostador antes da criação da aposta
 

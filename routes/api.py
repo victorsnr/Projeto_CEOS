@@ -40,12 +40,18 @@ def listar_apostadores():
 @api.route('/cadastrar_apostador', methods=['POST'])
 def cadastrar_apostador():
     data = request.json
+    nome = data['nome']
     cpf = data['cpf']
+    email = data['email']
     telefone = data['telefone']
     telefone = ''.join(filter(str.isdigit, telefone))
     
-    if not data['nome'] or not cpf:
+    if not nome or not cpf:
         return jsonify({'message': 'Dados obrigatórios faltando'}), 400
+
+    for caractere in nome:
+        if caractere.isdigit():
+            return jsonify({'message': 'Nome não pode conter números'}), 400
 
     if len(cpf) != 11 or not cpf.isdigit():
         return jsonify({'message': 'CPF inválido'}), 400
@@ -54,20 +60,25 @@ def cadastrar_apostador():
         return jsonify({'message': 'Telefone inválido'}), 400
 
     dt_nasc = datetime.strptime(data['dt_nasc'], '%Y-%m-%d').date()
+    ano_nascimento = dt_nasc.year
+    idade = date.today().year - ano_nascimento
 
-    if dt_nasc > date.today():
+    if dt_nasc > date.today() or idade > 120:
         return jsonify({'message': 'Data inválida'}), 400
 
     apostador_existente = Apostador.query.filter_by(cpf=cpf).first()
     if apostador_existente:
         return jsonify({'message': 'CPF já cadastrado'}), 400
+    
+    apostador_existente = Apostador.query.filter_by(email=email).first()
+    if apostador_existente:
+        return jsonify({'message': 'Email já cadastrado'}), 400
 
-
-    novo_apostador = Apostador(nome=data['nome'], 
-                               email=data['email'], 
+    novo_apostador = Apostador(nome=nome, 
+                               email=email, 
                                telefone=telefone,
                                cpf=cpf,
-                               dt_nasc=datetime.strptime(data['dt_nasc'], '%Y-%m-%d').date())
+                               dt_nasc=dt_nasc)
     
     try:
         db.session.add(novo_apostador)

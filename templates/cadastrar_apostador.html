@@ -3,36 +3,54 @@
     <span id="closeModalCadastro" class="closeModalCadastro">&times;</span>
     <h2 class="tituloModalCadastro">Cadastrar Apostador</h2>
 
-    <form id="novoApostador" class="formCadastro">  
+    <form id="novoApostador" class="formCadastro">
       <label>
         Nome:
-        <input id="nome" type="text" name="nome" required>
+        <input id="nome" type="text" name="nome" required />
       </label>
 
       <label>
         Email:
-        <input type="email" name="email" placeholder="email@exemplo.com" required>
+        <input
+          type="email"
+          name="email"
+          placeholder="email@exemplo.com"
+          required
+        />
       </label>
 
       <label>
         Telefone:
-        <input id="telefone" type="tel" name="telefone" placeholder="(99) 99999-9999" required>
+        <input
+          id="telefone"
+          type="tel"
+          name="telefone"
+          placeholder="(99) 99999-9999"
+          required
+        />
       </label>
 
       <label>
-          CPF:
-          <input id="cpf" type="text" name="cpf" placeholder="000.000.000-00" maxlength="14" required>
+        CPF:
+        <input
+          id="cpf"
+          type="text"
+          name="cpf"
+          placeholder="000.000.000-00"
+          maxlength="14"
+          required
+        />
       </label>
 
       <label>
-          Data de Nascimento:
-          <input type="date" name="dt_nasc" max="{{ hoje }}" required>
+        Data de Nascimento:
+        <input type="date" name="dt_nasc" max="{{ hoje }}" required />
       </label>
-      
+
       <button type="button" id="cancel" class="btnCadastro">Cancelar</button>
       <button type="submit" class="btnCadastro">Salvar</button>
     </form>
-  
+
     <p id="messageCadastro" class="messageCadastro"></p>
   </div>
 </div>

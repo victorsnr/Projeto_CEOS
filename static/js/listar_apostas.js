@@ -1,61 +1,58 @@
-const modal = document.getElementById('modalListarApostas');
-const closeModal = document.getElementById('closeModalListarApostas');
-const lista = document.getElementById('listaApostas');
+const modal = document.getElementById("modalListarApostas");
+const closeModal = document.getElementById("closeModalListarApostas");
+const lista = document.getElementById("listaApostas");
 
 if (closeModal && modal) {
-    closeModal.addEventListener('click', () => {
-        modal.style.display = 'none';
-    });
+  closeModal.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
 }
 
-window.addEventListener('click', (e) => {
-    if (e.target === modal) {
-        modal.style.display = 'none';
-    }
+window.addEventListener("click", (e) => {
+  if (e.target === modal) {
+    modal.style.display = "none";
+  }
 });
 
-
 async function listarApostas(apostadorId) {
-    if (!modal || !lista) return;
-    
-    modal.style.display = "block";
-    lista.innerHTML = 'Carregando...';
+  if (!modal || !lista) return;
 
-    try {        
-        const response = await fetch(`/api/exibir_apostas/${apostadorId}`);
-        const apostas = await response.json();
+  modal.style.display = "block";
+  lista.innerHTML = "Carregando...";
 
-        lista.innerHTML = '';
-        
-        if (apostas.length === 0) {
-            lista.innerHTML = '<p class="messageNoResults"> Nenhuma aposta encontrada.</p>';
-        }
+  try {
+    const response = await fetch(`/api/exibir_apostas/${apostadorId}`);
+    const apostas = await response.json();
 
-        apostas.forEach(aposta => {
-            const div = document.createElement('div');
+    lista.innerHTML = "";
 
-            const valor = parseFloat(aposta.valor)
-            .toFixed(2)
-            .replace('.', ',');
-
-            div.innerHTML = `
-                            <p><strong>Id da Aposta:</strong> ${aposta.id}</p>
-                            <p><strong>Valor:</strong> R$ ${valor}</p>
-                            <p><strong>Resultado:</strong> ${aposta.resultado}</p>
-                            <hr>
-                             `;
-            
-            lista.appendChild(div);
-        })
-
-    } catch (error) {
-        lista.innerHTML = '<p>Erro ao carregar as apostas.</p>';
+    if (apostas.length === 0) {
+      lista.innerHTML =
+        '<p class="messageNoResults"> Nenhuma aposta encontrada.</p>';
     }
+
+    apostas.forEach((aposta) => {
+      const div = document.createElement("div");
+
+      const valor = parseFloat(aposta.valor).toFixed(2).replace(".", ",");
+
+      div.innerHTML = `
+                        <p><strong>Id da Aposta:</strong> ${aposta.id}</p>
+                        <p><strong>Valor:</strong> R$ ${valor}</p>
+                        <p><strong>Resultado:</strong> ${aposta.resultado}</p>
+                        <hr>
+                    `;
+
+      lista.appendChild(div);
+    });
+  } catch (error) {
+    lista.innerHTML = "<p>Erro ao carregar as apostas.</p>";
+  }
 }
 
-document.querySelectorAll('.btnListarApostas').forEach(btn => {
-    btn.addEventListener('click', (event) => {
-        const id = event.target.dataset.id;
-        listarApostas(id);
-    });
+document.querySelectorAll(".btnListarApostas").forEach((btn) => {
+  btn.addEventListener("click", (event) => {
+    const id = event.target.dataset.id;
+    listarApostas(id);
+  });
 });

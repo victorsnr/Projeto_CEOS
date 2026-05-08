@@ -1,37 +1,43 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BET UFC</title>
 
-    <link rel="stylesheet" href="/static/css/reset.css">,
-    <link rel="stylesheet" href="/static/css/home.css">,
-    <link rel="stylesheet" href="/static/css/cadastrar_apostador.css">,
-    <link rel="stylesheet" href="/static/css/fazer_aposta.css">
-</head>
-<body>
+    <link rel="stylesheet" href="/static/css/reset.css" />
+    ,
+    <link rel="stylesheet" href="/static/css/home.css" />
+    ,
+    <link rel="stylesheet" href="/static/css/cadastrar_apostador.css" />
+    ,
+    <link rel="stylesheet" href="/static/css/fazer_aposta.css" />
+  </head>
+  <body>
     <h1 class="titulo">Bem-vindo à BET UFC</h1>
     <div class="content">
-        <button onclick="window.location.href='/exibir_apostadores'" class="btnHome">
-            Listar apostadores
-        </button>
-        
-        <div>
-            <button id="openModalCadastro" class="btnHome">
-                Cadastrar apostador
-            </button>
-            {% include 'cadastrar_apostador.html' %}
-            <script src="/static/js/cadastrar_apostador.js"></script>
-        </div>
+      <button
+        onclick="window.location.href = '/exibir_apostadores'"
+        class="btnHome"
+      >
+        Listar apostadores
+      </button>
 
-        <div>
-            <button id="openModalFazerAposta" class="btnHome">
-                Realizar aposta
-            </button>
-            {% include 'fazer_aposta.html' %}
-            <script src="/static/js/fazer_aposta.js"></script>
-        </div>
+      <div>
+        <button id="openModalCadastro" class="btnHome">
+          Cadastrar apostador
+        </button>
+        {% include 'cadastrar_apostador.html' %}
+        <script src="/static/js/cadastrar_apostador.js"></script>
+      </div>
+
+      <div>
+        <button id="openModalFazerAposta" class="btnHome">
+          Realizar aposta
+        </button>
+        {% include 'fazer_aposta.html' %}
+        <script src="/static/js/fazer_aposta.js"></script>
+      </div>
     </div>
-</body>
+  </body>
 </html>
