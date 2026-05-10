@@ -50,6 +50,7 @@ Este projeto foi desenvolvido para fins educacionais e de processo seletivo.
 No seu prompt de comando ou terminal do seu editor de código, rode:
 
 ```bash
+git init
 git clone https://github.com/victorsnr/Projeto_CEOS.git
 cd Projeto_CEOS
 ```
@@ -74,6 +75,20 @@ Se for Linux:
 
 ```bash
 source venv/bin/activate
+```
+
+#### Possível erro ao ativar o ambiente virtual no Windows (PowerShell)
+
+Caso o PowerShell bloqueie a execução do ambiente virtual, execute:
+
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
+```
+
+Depois disso, tente ativar o ambiente novamente:
+
+```powershell
+venv\Scripts\activate
 ```
 
 ### 3. Instalando bibliotecas:
